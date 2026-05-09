@@ -223,9 +223,9 @@ body.cinematic-mode .gallery video:not(.video-playing) {
         right: 1.5rem;
         z-index: 100;
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 12px;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
     }
 
     .top-menu a.active {
