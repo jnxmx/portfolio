@@ -27,6 +27,7 @@ body {
 }
 
 /* Subtle Frame Gradient */
+/* Subtle Frame Gradient */
 body::after {
     content: "";
     position: fixed;
@@ -34,7 +35,7 @@ body::after {
     left: 0;
     width: 100vw;
     height: 100vh;
-    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.35); /* Increased radius and opacity */
     pointer-events: none;
     z-index: 1000;
 }
