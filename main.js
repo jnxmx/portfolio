@@ -94,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('locked', 'cinematic-mode');
             video.classList.add('video-playing');
 
+            // Push a history state so back button can exit cinematic mode
+            history.pushState({ isCinematic: true }, '');
+
             // Center video
             setTimeout(() => {
                 video.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -104,6 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('pause', (e) => {
         if (e.target.tagName === 'VIDEO') {
             exitCinematic(e.target);
+            // If we paused manually and the history state is still there, pop it
+            if (history.state && history.state.isCinematic) {
+                history.back();
+            }
         }
     }, true);
 
@@ -136,7 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Handle back/forward buttons
-    window.addEventListener('popstate', () => {
+    window.addEventListener('popstate', (e) => {
+        // If we were in cinematic mode and the user hit 'back'
+        const playingVideo = document.querySelector('video.video-playing');
+        if (playingVideo && document.body.classList.contains('cinematic-mode')) {
+            playingVideo.pause();
+            return; // Stay on the current section
+        }
+
         const hash = window.location.hash || '#home';
         switchPage(hash);
     });
