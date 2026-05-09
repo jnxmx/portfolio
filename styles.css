@@ -1,0 +1,195 @@
+@font-face {
+    font-family: 'Awke';
+    src: url('assets/Awke0.1Trial-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg-color: #f4f4f0; /* Warm off-white */
+    --text-color: #111111;
+    --font-size: 22px; /* Slightly larger, uniform font size */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-y: scroll; /* Keep scrollbar gutter consistent to prevent layout shift */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Awke', serif;
+    font-size: var(--font-size);
+    font-weight: 400; /* Match Awke's regular weight */
+    line-height: 1.2;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle Frame Gradient */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Top Bar */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.5rem 3rem; /* Increased padding for better breathing room */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+    color: #ffffff;
+}
+
+.name {
+    pointer-events: auto;
+    transition: filter 0.6s ease;
+    text-decoration: none;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.name:hover {
+    filter: blur(6px);
+}
+
+.top-menu {
+    display: flex;
+    gap: 4rem; /* Fixed, generous gap */
+    align-items: center;
+}
+
+.top-menu a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: filter 0.6s ease, opacity 0.6s ease;
+    display: block;
+    line-height: 1;
+}
+
+.top-menu a:hover {
+    filter: blur(6px);
+    opacity: 0.7;
+}
+
+/* Container & Transition */
+.container {
+    padding: 150px 3rem 2.5rem 3rem; /* Matched bottom padding to top-bar vertical padding */
+    width: 100%;
+    margin: 0;
+    transition: filter 0.6s ease, opacity 0.6s ease;
+}
+
+.container.transitioning {
+    filter: blur(20px);
+    opacity: 0;
+}
+
+.page {
+    display: none;
+    min-height: calc(100vh - 150px - 2.5rem); /* Exactly fill viewport height minus container padding */
+    position: relative;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Bio (Home Section) */
+.bio {
+    position: absolute; /* Absolute relative to .page avoids filter-breaking-fixed-position bug */
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.bio a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: filter 0.6s ease;
+}
+
+.bio a:hover {
+    filter: blur(6px);
+}
+
+/* Galleries */
+.gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 8vh;
+    padding-bottom: calc(150px - 2.5rem); /* Ensures bottom spacing matches top container padding */
+}
+
+.gallery img, .gallery video {
+    max-width: 100%;
+    max-height: 80vh; /* Ensures item fits vertically on screen */
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.gallery img {
+    filter: grayscale(100%);
+    transition: filter 2.4s ease;
+}
+
+.gallery video {
+    transition: transform 0.8s ease;
+}
+
+.gallery img.centered {
+    filter: grayscale(0%);
+}
+
+/* Cinematic Mode */
+html.locked, body.locked {
+    overflow: hidden !important;
+}
+
+body {
+    transition: background-color 0.8s ease;
+}
+
+body.cinematic-mode {
+    background-color: #000000 !important;
+}
+
+body.cinematic-mode .top-bar,
+body.cinematic-mode .bio,
+body.cinematic-mode .gallery img,
+body.cinematic-mode .gallery video:not(.video-playing) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.top-bar, .bio, .gallery img, .gallery video {
+    transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
+}
+
+.gallery video.video-playing {
+    transform: scale(1.05);
+    z-index: 10;
+}
