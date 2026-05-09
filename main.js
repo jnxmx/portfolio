@@ -79,9 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    let lastPlayTime = 0;
+
     document.addEventListener('play', (e) => {
         if (e.target.tagName === 'VIDEO') {
             const video = e.target;
+            lastPlayTime = Date.now();
             console.log('Video play detected:', video.src);
             
             // Pause other videos
@@ -120,12 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, true);
 
-    // Handle clicks on background to pause video and exit
+    // Handle any click/tap in cinematic mode to pause and exit
     document.addEventListener('click', (e) => {
+        // Prevent immediate pause if the click was the one that started the video
+        if (Date.now() - lastPlayTime < 300) return;
+
         if (document.body.classList.contains('cinematic-mode')) {
-            if (e.target.tagName !== 'VIDEO') {
-                const playingVideo = document.querySelector('video.video-playing');
-                if (playingVideo) playingVideo.pause();
+            const playingVideo = document.querySelector('video.video-playing');
+            if (playingVideo) {
+                playingVideo.pause();
             }
         }
     });
