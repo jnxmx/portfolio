@@ -83,14 +83,13 @@ body::after {
 .top-menu a {
     text-decoration: none;
     color: #ffffff;
-    transition: filter 0.6s ease, opacity 0.6s ease;
-    opacity: 0.5;
+    transition: filter 0.6s ease, opacity 0.3s ease;
+    opacity: 1; /* Full opacity to ensure sharp contrast with mix-blend-mode */
 }
 
 @media (hover: hover) {
     .top-menu a:hover {
         filter: blur(6px);
-        opacity: 1;
     }
     
     .name:hover {
@@ -100,7 +99,6 @@ body::after {
 
 .top-menu a.active {
     filter: blur(2px);
-    opacity: 1;
     text-decoration: underline;
 }
 
