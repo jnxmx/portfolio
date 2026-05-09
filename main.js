@@ -107,12 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, true);
 
+    let isExitingCinematic = false;
+
     document.addEventListener('pause', (e) => {
         if (e.target.tagName === 'VIDEO') {
             exitCinematic(e.target);
             // If we paused manually and the history state is still there, pop it
             if (history.state && history.state.isCinematic) {
+                isExitingCinematic = true;
                 history.back();
+                // Reset flag after a short delay
+                setTimeout(() => { isExitingCinematic = false; }, 100);
             }
         }
     }, true);
@@ -150,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle back/forward buttons
     window.addEventListener('popstate', (e) => {
+        if (isExitingCinematic) return; // Prevent page reload/scroll when just popping cinematic history
+
         // If we were in cinematic mode and the user hit 'back'
         const playingVideo = document.querySelector('video.video-playing');
         if (playingVideo && document.body.classList.contains('cinematic-mode')) {
