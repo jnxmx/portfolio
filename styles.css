@@ -83,15 +83,24 @@ body::after {
 .top-menu a {
     text-decoration: none;
     color: var(--text-color);
-    transition: opacity 0.3s ease;
+    transition: filter 0.6s ease, opacity 0.6s ease;
     opacity: 0.5;
 }
 
-.top-menu a:hover, .top-menu a.active {
-    opacity: 1;
+@media (hover: hover) {
+    .top-menu a:hover {
+        filter: blur(6px);
+        opacity: 1;
+    }
+    
+    .name:hover {
+        filter: blur(6px);
+    }
 }
 
 .top-menu a.active {
+    filter: blur(2px);
+    opacity: 1;
     text-decoration: underline;
 }
 
@@ -213,16 +222,11 @@ body.cinematic-mode .gallery video:not(.video-playing) {
         gap: 15px;
     }
 
-    .name:hover {
-        filter: none !important; /* Remove blur from site name too */
-    }
-
     .top-menu {
         gap: 10px 20px;
     }
 
     .top-menu a.active {
-        filter: none !important;
         text-decoration: underline;
     }
 
